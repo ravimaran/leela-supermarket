@@ -1,13 +1,50 @@
 body{
-  font-family: 'Open Sans Condensed';
-  padding:20px 60px;
+  padding:50px 60px;
+  background:url(assets/coverbg2.png) no-repeat center center fixed;
+  background-size: cover;
+}
+
+.container-grey{
+  padding-bottom: 20px;
+  background-color: #f1f1f1;
+}
+
+.container-main{
+  padding:0 60px;
 }
 
 a{
   text-decoration: none;
-  color:black;
+  color:white;
+  font-weight: 300;
+  font-size: 1.2rem;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.mt-5{
+  margin-top: 15px;
+}
+
+@media only screen and (max-width: 680px){
+  body{
+    padding: 0;
+    background:none;
+  }
+
+  .container-grey{
+    padding-bottom: 6px;
+    padding:0 5px;
+  }
+
+  .container-white{
+    min-height: 100px;
+  }
+
+  .container-main{
+    font-family: 'Open Sans Condensed';
+    padding:0;
+  }
 }

@@ -28,4 +28,33 @@
       }
     }
   }
-  
+
+.container-appbar{
+  padding:0 60px;
+  background-color: white;
+}
+
+.container-logo{
+  padding:0 60px;
+  min-height: 150px;
+  background-color: white;
+  background: linear-gradient(to top, #f1f1f1 30%, #ffffff 30%);
+}
+
+.m-logo{
+  height: 50px;
+  width:100px;
+}
+
+@media only screen and (max-width: 680px){
+  .container-appbar{
+    padding:0;
+  }
+
+  .container-logo{
+    padding: 0 5px;
+    min-height: 100px;
+    background: linear-gradient(to top, #f1f1f1 15%, #ffffff 15%);
+  }
+}
+

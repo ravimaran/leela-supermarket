@@ -35,14 +35,19 @@ class SignIn extends React.Component{
     render(){
         return (
             <div className='sign-in'>
-                <h2>I already have an account</h2>
+                <h4>I already have an account</h4>
                 <span>Signin in with your emai and password</span>
 
                 <form onSubmit={this.handleSubmit}>
                     <FormInput name='email' value={this.state.email} required handleChange={this.handlChange} type='email' label='Email'/>
                     <FormInput name='password' value={this.state.password} required handleChange={this.handlChange} type='password' label='Password' />
                     <div className='buttons'>
-                        <CustomButton type='submit'>Sign In</CustomButton>
+                        <CustomButton type='submit'>{'    '} Sign In {'    '}</CustomButton>                        
+                    </div>
+                    <div>
+                        <h4>I would like to sign in with my google account.</h4>
+                    </div>
+                    <div>
                         <CustomButton onClick={signInWithGoogle} isGoogleSignIn> {' '} Sign In With Google {' '}</CustomButton>
                     </div>
                 </form>

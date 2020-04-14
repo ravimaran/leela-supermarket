@@ -1,58 +1,61 @@
 import React, { Component } from 'react';
 import MenuItem from '../menu-item/menu-item.component';
 
+import { UI_CATEGORY_LARGE, UI_CATEGORY_SMALL } from './uicategory.data';
+
+//Material UI
+import Grid from '@material-ui/core/Grid';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {useTheme} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core';
+
 import './directory.style.scss';
 
+const useStyle = makeStyles( (theme) => (
+    {
+        paper:{
+            padding:theme.spacing(2)
+        },
+        box:{
+            margin:5
+        }
+    }
+))
+
 class Directory extends Component{
-    constructor(){
+    constructor(){ 
         super();
         this.state = {
-            sections:[
-                {
-                    title: 'hats',
-                    imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
-                    id: 1,
-                    linkUrl: 'shop/hats'
-                  },
-                  {
-                    title: 'jackets',
-                    imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
-                    id: 2,
-                    linkUrl: 'shop/jackets'
-                  },
-                  {
-                    title: 'sneakers',
-                    imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
-                    id: 3,
-                    linkUrl: 'shop/sneakers'
-                  },
-                  {
-                    title: 'womens',
-                    imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
-                    size: 'large',
-                    id: 4,
-                    linkUrl: 'shop/womens'
-                  },
-                  {
-                    title: 'mens',
-                    imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
-                    size: 'large',
-                    id: 5,
-                    linkUrl: 'shop/mens'
-                  }
-            ]
+            sectionslarge:UI_CATEGORY_LARGE,
+            sectionssmall:UI_CATEGORY_SMALL
         }
     }
 
     render(){
         return(
-            <div className='directory-menu'>
-                {
-                    this.state.sections.map( ({id, ...sectionParams}) => (
-                        <MenuItem key={id} {...sectionParams} />
+            <React.Fragment>
+                <Grid 
+                container spacing={2}>
+                    {
+                        this.state.sectionslarge.map( ({id, ...sectionParams}) => (
+                            <Grid key={id} container xs={12} md={4} item={true}>
+                                <MenuItem {...sectionParams} />
+                            </Grid>
+                        ))
+                    }
+                </Grid>
+                <div className='mt-5' />
+                <Grid 
+                container spacing={2}>
+                    {
+                    this.state.sectionssmall.map( ({id, ...sectionParams}) => (
+                        <Grid key={id} container xs={6} md={3} item={true}>
+                            <MenuItem {...sectionParams} />
+                        </Grid>
                     ))
-                }
-            </div>
+                    }
+                </Grid>
+            </React.Fragment>
         )
     }
 }
