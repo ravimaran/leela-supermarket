@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import { ReactComponent as Logo} from '../../assets/logo.svg';
 import { auth } from '../../firebase/firebase.utils';
 
@@ -9,19 +10,19 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-
-import './header.style.scss';
 import { makeStyles, Typography } from '@material-ui/core';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Menu from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 
+//Custom Components
 import ListMenu from './list-menu.component';
 import CategoriesAsSelect from './category-menu.coponent';
 import CustomButton from '../custom-button/custom-button.component';
+import CustomizedBadges from '../../components/cartIcon/cartIcon.component';
+
+import './header.style.scss';
 
 const useStyles = makeStyles(theme =>(
     {
@@ -190,11 +191,7 @@ const Header = ({currentUser}) => {
                     alignItems="center"
                     className={classes.logobar}>
                     <Link to='/'><Logo className='logo' /></Link>
-                    <CustomButton 
-                            startIcon={<ShoppingCart />}
-                            >
-                        Cart Items (0)
-                    </CustomButton>
+                    <CustomizedBadges />
                 </Grid>
                 <Grid
                     container

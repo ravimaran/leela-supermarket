@@ -13,7 +13,7 @@ export const UI_CATEGORY_LARGE = [
         title: 'vegetables',
         imageUrl: `${vegies}`,
         id: 1,
-        linkUrl: '/',
+        linkUrl: '/shop',
         size:'large'
       },
       {
@@ -21,7 +21,7 @@ export const UI_CATEGORY_LARGE = [
         imageUrl: `${fruits}`,
         size: 'large',
         id: 2,
-        linkUrl: '/'
+        linkUrl: '/shop'
       },
       {
         title: 'spices',

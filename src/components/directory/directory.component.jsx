@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import MenuItem from '../menu-item/menu-item.component';
 
 import { UI_CATEGORY_LARGE, UI_CATEGORY_SMALL } from './uicategory.data';

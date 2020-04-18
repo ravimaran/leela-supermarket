@@ -1,17 +1,52 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+import {addItem} from '../../redux/cart/cart.actions';
+
+import CustomButton from '../custom-button/custom-button.component';
 
 import './collection-item.style.scss';
 
-const CollectionItem = ({id, name, price, imageUrl }) => (
-    <div className='collection-item'>
-        <div className='image' 
-            style={{backgroundImage: `url(${imageUrl})`}} />
+const useStyles = makeStyles((theme) => ({
+    carditem:{
+        margin:'10px'
+    }
+}))
 
-        <div className='collection-footer'>
-            <span className='name'>{name}</span>
-            <span className='price'>{price}</span>
-        </div>
-    </div>
-);
+const CollectionItem = ({item, addItem }) => {
+    const{name, price, imageUrl} = item;
+    return(
+        <Grid xs={12} md={2} item={true}>
+            <Card className={useStyles().carditem}>
+                <CardActionArea>
+                    <CardMedia 
+                        component='img'
+                        alt={name}
+                        height="150"
+                        image={imageUrl}
+                        title='Vegetables' />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {name}
+                        </Typography>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            ${price}.00
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <CustomButton onClick={() => addItem(item)}>Add to Cart</CustomButton>
+                </CardActions>
+            </Card>
+        </Grid>  
+    )      
+};
 
-export default CollectionItem;
+
+const mapDispatchToProps = dispatch => ({
+    addItem: item => dispatch(addItem(item))
+})
+
+export default connect(null, mapDispatchToProps)(CollectionItem);
