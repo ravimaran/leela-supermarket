@@ -89,7 +89,6 @@ const useStyles = makeStyles(theme =>(
 
 
 const Header = ({currentUser}) => {
-    console.log(currentUser);
     const classes = useStyles();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('md'));

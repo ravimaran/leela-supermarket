@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
 import Badge from '@material-ui/core/Badge';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -6,6 +8,13 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Popover from '@material-ui/core/Popover';
 
 import CustomButton from '../custom-button/custom-button.component';
+import { List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Grid, Divider } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import { removeItem } from '../../redux/cart/cart.actions';
+import {selectCartItemsCount, selectCartItems} from '../../redux/cart/cart.selectors';
+
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -18,12 +27,12 @@ const StyledBadge = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
     cartitem:{
-        padding:20
+        padding:20,
+        width:300
     }
 }))
 
-export default function CustomizedBadges() {
-
+const CustomizedBadges = ({cartItems, removeItem, itemsCount}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -41,7 +50,7 @@ export default function CustomizedBadges() {
     return (
         <React.Fragment>
             <IconButton color='secondary' aria-label="cart" onClick={handleClick}>
-            <StyledBadge badgeContent={0} color="primary">
+            <StyledBadge badgeContent={itemsCount} color="primary">
                 <ShoppingCartIcon />
             </StyledBadge>
         </IconButton>
@@ -61,10 +70,52 @@ export default function CustomizedBadges() {
         >
             
             <div className={classes.cartitem}>
-                <p>No item found!</p>
-                <CustomButton> {' '} Complete My Order{' '}</CustomButton>
+                {
+                    cartItems ? 
+                    <div>
+                        <Typography color='secondary' gutterBottom variant="h5" component="h4">Cart Summary ({itemsCount} items)</Typography>
+                        <List>
+                        {
+                            cartItems.map(item => (     
+                                <React.Fragment  key={item.id}>
+                                <Divider />                  
+                                <ListItem disableGutters>
+                                    <ListItemAvatar>
+                                        <Avatar src={item.imageUrl} />
+                                    </ListItemAvatar>
+                                    <Grid orientation='column'>                                    
+                                        <ListItemText primary={item.name} />
+                                        <ListItemText secondary={`QTY:${item.quantity}`} />
+                                        <ListItemText primary={`$${item.price * item.quantity}.00`} />
+                                    </Grid>
+                                    <ListItemSecondaryAction>
+                                        <IconButton edge='end' onClick={() => removeItem(item)} title='Remove this item from cart'>
+                                            <DeleteIcon color='primary'></DeleteIcon>
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                                </React.Fragment>
+                            ))
+                        }
+                        </List>     
+                    </div>              
+                    :
+                    <p>No Items Found!</p>
+                }
+                <CustomButton>GO TO CHECKOUT</CustomButton>
             </div>
         </Popover>
         </React.Fragment>
     );
 }
+
+const mapStateToProps = state => ({
+    cartItems:selectCartItems(state),
+    itemsCount:selectCartItemsCount(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+    removeItem: item => dispatch(removeItem(item))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomizedBadges);

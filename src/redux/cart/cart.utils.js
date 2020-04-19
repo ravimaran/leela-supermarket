@@ -8,3 +8,9 @@ export const addItemToCart = (cartItems, item) => {
 
     return [...cartItems, {...item, quantity:1}];
 }
+
+export const removeCartItem = (cartItems, cartItem) => {
+    const index = cartItems.indexOf(cartItem);
+    cartItems.splice(index, 1);
+    return [...cartItems];
+}
