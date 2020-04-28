@@ -11,4 +11,16 @@
         display:flex;
         justify-content: space-between;
     }
+
+    .error{
+        color:red;
+        font-size:small;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    a{
+        cursor: pointer;
+        color:#3da260;
+    }
 }

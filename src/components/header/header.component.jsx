@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState } from 'react';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -9,7 +9,6 @@ import { auth } from '../../firebase/firebase.utils';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles, Typography } from '@material-ui/core';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -19,8 +18,11 @@ import Icon from '@material-ui/core/Icon';
 //Custom Components
 import ListMenu from './list-menu.component';
 import CategoriesAsSelect from './category-menu.coponent';
-import CustomButton from '../custom-button/custom-button.component';
 import CustomizedBadges from '../../components/cartIcon/cartIcon.component';
+import SearchBox from '../../components/search/search.coponent';
+
+//Selectors
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 import './header.style.scss';
 
@@ -48,7 +50,8 @@ const useStyles = makeStyles(theme =>(
             height:50
         },
         logobar:{
-            paddingTop:20,
+            paddingTop:12,
+            height:72,
             "& .logo":{
                 width:'126px',
                 height:'60px'
@@ -79,10 +82,21 @@ const useStyles = makeStyles(theme =>(
         headerTitle:{
             fontWeight:300,
             paddingRight:10,
-            fontSize:20
+            fontSize:20,
+            [theme.breakpoints.down('md')]:{
+                fontSize:15,
+            }
         },
         titleDivider:{
             paddingRight:10
+        },
+        searchBox:{
+            [theme.breakpoints.up('md')]:{
+                width:'50% !important'
+            },
+            [theme.breakpoints.down('md')]:{
+                width:'unset !important'
+            }
         }
     }
 ));
@@ -114,8 +128,7 @@ const Header = ({currentUser}) => {
                 </Grid>                
                 <Grid container className={classes.linkcontainer} orientation='row' justify='space-between'>
                     <Link className='option'  to='/'>HOME</Link>
-                    <Link className='option'  to='/about'>ABOUT US</Link>
-                    <Link className='option' to='/contact'>CONTACT US</Link>
+                    <Link className='option' to='/curbside'>CURBSIDE PICK-UP</Link>
                     {
                         currentUser ? 
                         <Link className='option' onClick={() => auth.signOut()} to='/'>
@@ -130,29 +143,37 @@ const Header = ({currentUser}) => {
 
     const categories = (
         <React.Fragment>
-            <Link to='/'>VEGETABLES</Link>
+            <Link to='/shop/vegetables' >VEGETABLES</Link>
             <Divider orientation="vertical" flexItem />
-            <Link to='/'>FRUITS</Link>
+            <Link to='/shop/fruits'>FRUITS</Link>
             <Divider orientation="vertical" flexItem />
-            <Link to='/'>MEAT</Link>
+            <Link to='/shop/herbs'>HERBS</Link>
             <Divider orientation="vertical" flexItem />
-            <Link to='/'>SPICES</Link>
+            <Link to='/shop/meat'>MEAT</Link>
             <Divider orientation="vertical" flexItem />
-            <Link to='/'>SEAFOOD</Link>
+            <Link to='/shop/spices'>SPICES</Link>
             <Divider orientation="vertical" flexItem />
-            <Link to='/'>FROZEN</Link>
+            <Link to='/shop/seafood'>SEAFOOD</Link>
             <Divider orientation="vertical" flexItem />
-            <Link to='/'>GRAINS</Link>
+            <Link to='/shop/frozen'>FROZEN</Link>
             <Divider orientation="vertical" flexItem />
-            <Link to='/'>SNACKS</Link>
+            <Link to='/shop/dairy'>DAIRY</Link>
             <Divider orientation="vertical" flexItem />
-            <Link to='/'>DRINKS</Link>
+            <Link to='/shop/grains'>GRAINS</Link>
+            <Divider orientation="vertical" flexItem />
+            <Link to='/shop/nuts'>NUTS</Link>
+            <Divider orientation="vertical" flexItem />
+            <Link to='/shop/snacks'>SNACKS</Link>
+            <Divider orientation="vertical" flexItem />
+            <Link to='/shop/drinks'>DRINKS</Link>
+            <Divider orientation="vertical" flexItem />
+            <Link to='/shop/others'>OTHERS</Link>
         </React.Fragment>
     )
 
     const drawer = (
         <React.Fragment>
-            <Grid
+            <Grid alignItems='center'
                 container
                 className={classes.appbar}
                 >
@@ -190,7 +211,10 @@ const Header = ({currentUser}) => {
                     alignItems="center"
                     className={classes.logobar}>
                     <Link to='/'><Logo className='logo' /></Link>
-                    <CustomizedBadges />
+                   <Grid className={classes.searchBox} container justify='space-between'>
+                        <SearchBox />
+                        <CustomizedBadges />
+                   </Grid>
                 </Grid>
                 <Grid
                     container
@@ -209,7 +233,7 @@ const Header = ({currentUser}) => {
 };
 
 const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+    currentUser: selectCurrentUser(state)
 });
 
 export default connect(mapStateToProps)(Header);

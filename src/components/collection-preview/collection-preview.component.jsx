@@ -3,15 +3,15 @@ import CollectionItem from '../../components/collection-item/collection-item.com
 import './collection-preview.style.scss';
 import { Grid, Typography } from '@material-ui/core';
 
-const CollectionPreview = ({title, items}) => (
+const CollectionPreview = ({title, collections}) => (
     <React.Fragment>
         <Typography component='h4' variant='h4' gutterBottom>
-            {title}
+            {title.toUpperCase()}
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
             {
-                items.map((item) => (
-                    <CollectionItem key={item.id} item={item} />
+                collections.map((item) => (
+                    <CollectionItem key={item.productId} item={item} />
                 ))
             }
         </Grid>

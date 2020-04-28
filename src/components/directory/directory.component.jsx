@@ -1,27 +1,13 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import MenuItem from '../menu-item/menu-item.component';
 
 import { UI_CATEGORY_LARGE, UI_CATEGORY_SMALL } from './uicategory.data';
 
 //Material UI
 import Grid from '@material-ui/core/Grid';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {useTheme} from '@material-ui/core/styles';
-import {makeStyles} from '@material-ui/core';
+import {Box} from '@material-ui/core';
 
 import './directory.style.scss';
-
-const useStyle = makeStyles( (theme) => (
-    {
-        paper:{
-            padding:theme.spacing(2)
-        },
-        box:{
-            margin:5
-        }
-    }
-))
 
 class Directory extends Component{
     constructor(){ 
@@ -45,7 +31,7 @@ class Directory extends Component{
                         ))
                     }
                 </Grid>
-                <div className='mt-5' />
+                <Box mt={2} />
                 <Grid 
                 container spacing={2}>
                     {

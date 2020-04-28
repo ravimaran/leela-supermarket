@@ -3,4 +3,16 @@
     display:flex;
     justify-content: space-between;
     margin:0 auto;
+
+    .external{
+        width: 90%;
+        padding: 0 10px;
+        background-color: ghostwhite;
+        border-radius: 4px;
+    }
+
+    .or-text{
+        width:100%;
+        text-align: center;
+    }
 }

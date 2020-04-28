@@ -1,5 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
 import Badge from '@material-ui/core/Badge';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -11,17 +13,21 @@ import CustomButton from '../custom-button/custom-button.component';
 import { List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Grid, Divider } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Cart from '@material-ui/icons/ShoppingCart';
+
+import {selectCartItemsCount, selectCartItems} from '../../redux/cart/cart.selectors';
+import { currencyFormatter } from '../../utils/numberFormater';
 
 import { removeItem } from '../../redux/cart/cart.actions';
-import {selectCartItemsCount, selectCartItems} from '../../redux/cart/cart.selectors';
+
 
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
-    right: -3,
+    right: -1,
     top: 13,
     border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px',
+    padding: '2px 8px',
   }
 }))(Badge);
 
@@ -29,10 +35,14 @@ const useStyles = makeStyles((theme) => ({
     cartitem:{
         padding:20,
         width:300
+    },
+    iconsize:{
+        width:40,
+        height:40
     }
 }))
 
-const CustomizedBadges = ({cartItems, removeItem, itemsCount}) => {
+const CustomizedBadges = ({cartItems, removeItem, itemsCount, history}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -51,7 +61,7 @@ const CustomizedBadges = ({cartItems, removeItem, itemsCount}) => {
         <React.Fragment>
             <IconButton color='secondary' aria-label="cart" onClick={handleClick}>
             <StyledBadge badgeContent={itemsCount} color="primary">
-                <ShoppingCartIcon />
+                <ShoppingCartIcon style={{fontSize:40}} />
             </StyledBadge>
         </IconButton>
         <Popover
@@ -77,16 +87,16 @@ const CustomizedBadges = ({cartItems, removeItem, itemsCount}) => {
                         <List>
                         {
                             cartItems.map(item => (     
-                                <React.Fragment  key={item.id}>
+                                <React.Fragment  key={item.productId}>
                                 <Divider />                  
                                 <ListItem disableGutters>
                                     <ListItemAvatar>
-                                        <Avatar src={item.imageUrl} />
+                                        <Avatar src={`http://ecommerce.inkav.ca/resources/${item.category.toLowerCase()}/${item.imageUrl}`} />
                                     </ListItemAvatar>
                                     <Grid orientation='column'>                                    
                                         <ListItemText primary={item.name} />
-                                        <ListItemText secondary={`QTY:${item.quantity}`} />
-                                        <ListItemText primary={`$${item.price * item.quantity}.00`} />
+                                        <ListItemText secondary={`QTY:${item.quantity} ${item.unit}`} />
+                                        <ListItemText primary={ currencyFormatter.format(item.price * item.quantity)} />
                                     </Grid>
                                     <ListItemSecondaryAction>
                                         <IconButton edge='end' onClick={() => removeItem(item)} title='Remove this item from cart'>
@@ -102,20 +112,21 @@ const CustomizedBadges = ({cartItems, removeItem, itemsCount}) => {
                     :
                     <p>No Items Found!</p>
                 }
-                <CustomButton>GO TO CHECKOUT</CustomButton>
+                
+                <CustomButton disabled={cartItems.length === 0} onClick={() => {history.push('/checkout'); handleClose();}}>GO TO CHECKOUT</CustomButton>
             </div>
         </Popover>
         </React.Fragment>
     );
 }
 
-const mapStateToProps = state => ({
-    cartItems:selectCartItems(state),
-    itemsCount:selectCartItemsCount(state)
+const mapStateToProps = createStructuredSelector({
+    cartItems:selectCartItems,
+    itemsCount:selectCartItemsCount
 });
 
 const mapDispatchToProps = dispatch => ({
     removeItem: item => dispatch(removeItem(item))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomizedBadges);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CustomizedBadges));

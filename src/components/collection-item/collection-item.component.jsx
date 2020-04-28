@@ -7,6 +7,8 @@ import {addItem} from '../../redux/cart/cart.actions';
 
 import CustomButton from '../custom-button/custom-button.component';
 
+import { currencyFormatter } from '../../utils/numberFormater';
+
 import './collection-item.style.scss';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,28 +17,39 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const CollectionItem = ({item, addItem }) => {
-    const{name, price, imageUrl} = item;
+const CollectionItem = ({item, addItem}) => {
+    const{name, price, imageUrl, unit, category} = item;
     return(
-        <Grid xs={12} md={2} item={true}>
-            <Card className={useStyles().carditem}>
+        <Grid container xs={6} md={2} item={true}  justify='space-between'>
+            <Card>
                 <CardActionArea>
                     <CardMedia 
                         component='img'
                         alt={name}
                         height="150"
-                        image={imageUrl}
-                        title='Vegetables' />
+                        image={`http://ecommerce.inkav.ca/resources/${category}/${imageUrl}`}
+                        title={category}/>
                     <CardContent>
                         <Typography gutterBottom variant="h6" component="h5">
                             {name}
                         </Typography>
                         <Typography gutterBottom component="p">
-                            ${price}.00
+                            {
+                                !unit || unit === '' ? 
+                                currencyFormatter.format(price) : 
+                                `${currencyFormatter.format(price)} / ${unit}`
+                            }
                         </Typography>
+                        {
+                            unit === 'lb' ? 
+                                <Typography gutterBottom component='span'>
+                                    The final price of this item may change once order is ready to pickup.
+                                </Typography>
+                                : <div className='min-height-70'>&nbsp;</div>
+                        }
                     </CardContent>
                 </CardActionArea>
-                <CardActions>
+                <CardActions className='add-cart-button'>
                     <CustomButton onClick={() => addItem(item)}>Add to Cart</CustomButton>
                 </CardActions>
             </Card>

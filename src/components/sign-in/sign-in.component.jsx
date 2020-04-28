@@ -5,6 +5,8 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 import './sign-in.style.scss';
+import { Typography, Grid } from '@material-ui/core';
+import {Link} from 'react-router-dom';
 
 class SignIn extends React.Component{
     constructor(props){
@@ -12,18 +14,20 @@ class SignIn extends React.Component{
 
         this.state = {
             email : '',
-            password: ''
+            password: '',
+            error:''
         }
     }
 
     handleSubmit = async event => {
         event.preventDefault();
-        const {email, password} = this.state;
+        const {email, password, error} = this.state;
+        this.setState({error:''});
         try{
             await auth.signInWithEmailAndPassword(email, password);
             this.setState({ email:'', password:''});
         }catch(error){
-            console.log(error);
+            this.setState({error:error.message});
         }
     }
 
@@ -42,14 +46,14 @@ class SignIn extends React.Component{
                     <FormInput name='email' value={this.state.email} required handleChange={this.handlChange} type='email' label='Email'/>
                     <FormInput name='password' value={this.state.password} required handleChange={this.handlChange} type='password' label='Password' />
                     <div className='buttons'>
-                        <CustomButton type='submit'>{'    '} Sign In {'    '}</CustomButton>                        
+                        <CustomButton type='submit'>{'    '} Sign In {'    '}</CustomButton>                     
                     </div>
                     <div>
-                        <h4>I would like to sign in with my google account.</h4>
+                    <Typography className='error' component='p'>{this.state.error}</Typography>    
                     </div>
-                    <div>
-                        <CustomButton onClick={signInWithGoogle} isGoogleSignIn> {' '} Sign In With Google {' '}</CustomButton>
-                    </div>
+                    <Grid container justify='center'>
+                        <Link to='/forgotpassword' color='secondary'>Forgot/Reset Password</Link>
+                    </Grid>
                 </form>
             </div>
         );

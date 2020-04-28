@@ -9,7 +9,10 @@ const useStyles = makeStyles(theme => ({
         '& a':{
             color:'black'
         },
-        padding:'10px 60px'
+        padding:'10px 60px',
+        [theme.breakpoints.down('md')]:{
+            padding:'10px'
+        }
     },
     textblock:{
         paddingRight:20

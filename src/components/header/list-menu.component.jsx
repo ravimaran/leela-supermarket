@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import Home from '@material-ui/icons/Home';
 import Info from '@material-ui/icons/Info';
-import ContactPhone from '@material-ui/icons/ContactPhone';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import Lock from '@material-ui/icons/Lock';
 import LockOpen from '@material-ui/icons/LockOpen';
 import {makeStyles} from '@material-ui/core/styles';
@@ -39,17 +39,11 @@ const ListMenu = ({handleClose, currentUser}) => (
                 </ListItemIcon>
                 <ListItemText primary='Home' />
             </ListItem>
-            <ListItem button component={Link} to='/about'>
+            <ListItem button component={Link} to='/curbside'>
                 <ListItemIcon>
-                    <Info color='secondary' />
+                    <ShoppingCart color='secondary' />
                 </ListItemIcon>
-                <ListItemText primary='About Us' />
-            </ListItem>
-            <ListItem button component={Link} to='/contact'>
-                <ListItemIcon>
-                    <ContactPhone color='secondary' />
-                </ListItemIcon>
-                <ListItemText primary='Contact Us' />
+                <ListItemText primary='Curbside Pick-Up' />
             </ListItem>
             <Divider />
             {                

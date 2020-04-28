@@ -14,3 +14,17 @@ export const removeItem = (item) => ({
     payload:item
 })
 
+export const removeQuantity = (item) => ({
+    type:CartActionTypes.REMOVE_QUANTITY,
+    payload:item
+})
+
+export const setGotoPage = (item) => ({
+    type:CartActionTypes.SET_GOTO_PAGE,
+    paylaod:item
+})
+
+export const clearCart = () => ({
+    type:CartActionTypes.CLEAR_CART
+})
+

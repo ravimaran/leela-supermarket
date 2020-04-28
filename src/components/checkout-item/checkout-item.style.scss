@@ -1,0 +1,34 @@
+.avatar{
+    width:70px !important;
+    height:70px !important;
+}
+
+.checkout-item{
+    padding:10px;
+    border-bottom: 1px solid #84c341;
+    margin-right:20px;
+}
+
+.checkout-summary{
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    padding: 5px 15px 15px;
+    margin-left:10px;
+}
+
+.cart-total{
+    text-align: right;
+    width:100%;
+    padding-right: 20px; 
+}
+
+
+@media only screen and (max-width: 680px){
+    .checkout-summary{
+        margin-left:0 !important;
+    }
+
+    .cart-total{
+        padding-right: 5px !important;
+    }
+}
